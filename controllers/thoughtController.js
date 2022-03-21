@@ -59,7 +59,7 @@ module.exports = {
     // delete thought by id
     deleteThought(req, res){
       Thought.findOneAndRemove({_id:req.params.thoughtId})
-        .then((thought)=>{
+        .then((thought)=>
           !thought
             ? res.status(400).json({message:'No thought associated with that ID'})
             : User.findOneAndUpdate(
@@ -67,14 +67,14 @@ module.exports = {
               {$pull: {thoughts: req.params.thoughtId}},
               {new: true}
             )
-        })
-        .then((user)=>{
+        )
+        .then((user)=>
           !user
             ? res.status(404).json({
               message: 'Thought from unknown user ID deleted'
             })
             : res.status(200).json({message:'Thought deleted!'})
-        })
+        )
         .catch((err)=>{
           if (err) res.status(500).json({message: 'Error deleting thought'})
         })
